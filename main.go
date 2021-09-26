@@ -11,9 +11,17 @@ func main() {
 
 	database.ConnectDataBase()
 
-	router.GET("/users", controllers.GetUsers)
-	router.GET("/users/:id", controllers.GetUserById)
-	router.POST("/users", controllers.AddUser)
+	v1 := router.Group("api/v1")
+	{
+		users := v1.Group("users")
+		{
+			users.GET("/", controllers.GetUsers)
+			users.POST("/", controllers.AddUser)
+			users.GET("/:id", controllers.GetUserById)
+			users.PATCH("/:id", controllers.UpdateUser)
+		}
+
+	}
 
 	router.Run("localhost:8080")
 }
