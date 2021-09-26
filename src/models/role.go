@@ -1,5 +1,8 @@
 package models
 
+// A role for an user
+//
+// swagger:model
 type Role int16
 
 const (

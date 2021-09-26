@@ -1,0 +1,198 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  Model:
+    description: |-
+      Model base model definition, including fields `ID`, `CreatedAt`, `UpdatedAt`, `DeletedAt`, which could be embedded in your models
+      type User struct {
+      gorm.Model
+      }
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      UpdatedAt:
+        format: date-time
+        type: string
+    type: object
+    x-go-package: github.com/jinzhu/gorm
+  Role:
+    description: A role for an user
+    format: int16
+    type: integer
+    x-go-package: github.com/Mwa22/nightborn-dev-exercise-back-end/src/models
+  UpdateUserInput:
+    description: An object to update a user
+    properties:
+      email:
+        description: The email
+        example: user@provider.net
+        type: string
+        uniqueItems: true
+        x-go-name: EMAIL
+      first_name:
+        description: The firstname
+        type: string
+        x-go-name: FIRSTNAME
+      last_name:
+        description: The lastname
+        type: string
+        x-go-name: LASTNAME
+      password:
+        description: The password
+        type: string
+        x-go-name: PASSWORD
+      role:
+        $ref: '#/definitions/Role'
+    type: object
+    x-go-package: github.com/Mwa22/nightborn-dev-exercise-back-end/src/models
+  User:
+    description: An user of the application
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      UpdatedAt:
+        format: date-time
+        type: string
+      email:
+        description: The email
+        example: user@provider.net
+        type: string
+        uniqueItems: true
+        x-go-name: EMAIL
+      first_name:
+        description: The firstname
+        type: string
+        x-go-name: FIRSTNAME
+      last_name:
+        description: The lastname
+        type: string
+        x-go-name: LASTNAME
+      password:
+        description: The password
+        type: string
+        x-go-name: PASSWORD
+      role:
+        $ref: '#/definitions/Role'
+    required:
+    - first_name
+    - last_name
+    - email
+    - role
+    - password
+    type: object
+    x-go-package: github.com/Mwa22/nightborn-dev-exercise-back-end/src/models
+info:
+  contact:
+    email: thomas.michel@live.be
+    name: Thomas Michel
+  description: |-
+    Swagger for Nightborn-dev-exercise-back-end project.
+
+    Schemes: [http, https]
+  title: Nightborn Dev Exercise API
+  version: 1.0.0
+paths:
+  /api/v1/users:
+    get:
+      description: Return all users
+      operationId: GetAll
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: All the users
+          schema:
+            items:
+              $ref: '#/definitions/User'
+            type: array
+        "400":
+          description: Bad Request
+      summary: Get all users.
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create an user and return this user
+      operationId: AddUser
+      parameters:
+      - in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: The user created
+          schema:
+            $ref: '#/definitions/User'
+            type: object
+        "400":
+          description: Bad Request
+      summary: Add an user.
+      tags:
+      - users
+  /api/v1/users/{id}:
+    get:
+      description: Return the user with id
+      operationId: GetUserById
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: The user
+          schema:
+            $ref: '#/definitions/User'
+            type: object
+        "404":
+          description: User not found
+      summary: Get an user by id.
+      tags:
+      - users
+    patch:
+      consumes:
+      - application/json
+      description: Return the user updated
+      operationId: UpdateUser
+      parameters:
+      - in: body
+        name: data
+        schema:
+          $ref: '#/definitions/UpdateUserInput'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: The user updated
+          schema:
+            $ref: '#/definitions/User'
+            type: object
+        "400":
+          description: Bad Request
+        "404":
+          description: User not found
+      summary: Update an user.
+      tags:
+      - users
+produces:
+- application/json
+swagger: "2.0"
