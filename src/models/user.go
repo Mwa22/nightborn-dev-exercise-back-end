@@ -31,7 +31,7 @@ type User struct {
 	// The role
 	//
 	// required: true
-	ROLE *Role `json:"role" validate:"required,role"`
+	ROLE Role `json:"role" validate:"required,role"`
 
 	// The password
 	//
@@ -63,7 +63,7 @@ type UpdateUserInput struct {
 	// The role
 	//
 	// required: false
-	ROLE *Role `json:"role" validate:"role"`
+	ROLE Role `json:"role" validate:"role"`
 
 	// The password
 	//
@@ -74,7 +74,7 @@ type UpdateUserInput struct {
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	validate := validator.New()
 	_ = validate.RegisterValidation("role", func(fl validator.FieldLevel) bool {
-		return Role(fl.Field().Int()).IsValid()
+		return Role(fl.Field().String()).IsValid()
 	})
 
 	err = validate.Struct(u)
@@ -84,7 +84,7 @@ func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 func (u *User) BeforeUpdate(tx *gorm.DB) (err error) {
 	validate := validator.New()
 	_ = validate.RegisterValidation("role", func(fl validator.FieldLevel) bool {
-		return Role(fl.Field().Int()).IsValid()
+		return Role(fl.Field().String()).IsValid()
 	})
 
 	err = validate.Struct(u)

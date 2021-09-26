@@ -1,15 +1,18 @@
 package models
 
+// swagger:enum RoleEnum
+type RoleEnum string
+
+const (
+	Administrator RoleEnum = "Administrator"
+	RegularUser   RoleEnum = "RegularUser"
+)
+
 // A role for an user
 //
 // swagger:model
-type Role int16
-
-const (
-	Administrator Role = iota
-	RegularUser
-)
+type Role RoleEnum
 
 func (r Role) IsValid() bool {
-	return r >= Administrator && r <= RegularUser
+	return r == "Administrator" || r == "RegularUser"
 }

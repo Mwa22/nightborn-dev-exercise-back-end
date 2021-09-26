@@ -25,8 +25,10 @@ definitions:
     x-go-package: github.com/jinzhu/gorm
   Role:
     description: A role for an user
-    format: int16
-    type: integer
+    enum:
+    - Administrator
+    - RegularUser
+    type: string
     x-go-package: github.com/Mwa22/nightborn-dev-exercise-back-end/src/models
   UpdateUserInput:
     description: An object to update a user
@@ -154,6 +156,11 @@ paths:
     get:
       description: Return the user with id
       operationId: GetUserById
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -173,6 +180,10 @@ paths:
       description: Return the user updated
       operationId: UpdateUser
       parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
       - in: body
         name: data
         schema:

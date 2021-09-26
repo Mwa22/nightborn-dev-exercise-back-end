@@ -63,6 +63,11 @@ func main() {
 			// ---
 			//     Produces:
 			//       - application/json
+			//     Parameters:
+			//       - name: id
+			//         in: path
+			//         type: string
+			//         required: true
 			//     Responses:
 			//       200:
 			//         description: The user
@@ -82,6 +87,10 @@ func main() {
 			//     Produces:
 			//       - application/json
 			//     Parameters:
+			//       - name: id
+			//         in: path
+			//         type: string
+			//         required: true
 			//       - name: data
 			//         in: body
 			//         schema:
