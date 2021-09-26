@@ -3,14 +3,20 @@ package main
 import (
 	"github.com/Mwa22/nightborn-dev-exercise-back-end/src/controllers"
 	"github.com/Mwa22/nightborn-dev-exercise-back-end/src/database"
+	"github.com/Mwa22/nightborn-dev-exercise-back-end/src/middlewares"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	router := gin.Default()
 
+	// Connect to database
 	database.ConnectDataBase()
 
+	// Middlewares
+	router.Use(middlewares.CORSMiddleware())
+
+	// Routes
 	v1 := router.Group("api/v1")
 	{
 		users := v1.Group("users")
@@ -30,7 +36,7 @@ func main() {
 			//             "$ref": "#/definitions/User"
 			//       400:
 			//         description: Bad Request
-			users.GET("/", controllers.GetUsers)
+			users.GET("", controllers.GetUsers)
 
 			// swagger:operation POST /api/v1/users users AddUser
 			// Add an user.
@@ -55,7 +61,7 @@ func main() {
 			//           "$ref": "#/definitions/User"
 			//       400:
 			//         description: Bad Request
-			users.POST("/", controllers.AddUser)
+			users.POST("", controllers.AddUser)
 
 			// swagger:operation GET /api/v1/users/{id} users GetUserById
 			// Get an user by id.
